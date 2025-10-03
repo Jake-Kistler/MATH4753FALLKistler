@@ -4,8 +4,9 @@
 #' @param y a quantitative vector
 #' @param xlab a label for the x axis
 #' @param ylab a label for the y axis
+#' @importFrom graphics barplot hist layout mtext par
 #'
-#' @returns a plot
+#' @return a plot
 #' @export
 #'
 #' @examples

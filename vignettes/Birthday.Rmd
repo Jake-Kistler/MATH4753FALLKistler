@@ -1,0 +1,95 @@
+---
+title: "Birthday"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Birthday}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(MATH4753FALLKistler)
+```
+
+## Section 1: LaTex and proving:
+\[
+\textbf{What are we finding?}\quad
+\text{The chance that in a group of } n \text{ people, at least two share a birthday.}
+\]
+
+\[
+\text{Assume birthdays are independent and spread evenly across 365 days.}
+\]
+
+\[
+\text{It’s easier to find the opposite: everyone has a different birthday.}
+\]
+\[
+\Pr(\ge 2 \text{ share}) \;=\; 1 - \Pr(\text{all birthdays are different}).
+\]
+
+\[
+\text{Build it step by step: the first person can be on any day (prob }1\text{).}
+\]
+\[
+\text{The second must avoid that day } \Big(\tfrac{364}{365}\Big),\;
+\text{the third must avoid two days } \Big(\tfrac{363}{365}\Big),\; \ldots
+\]
+\[
+\Rightarrow\quad
+\Pr(\text{all different})
+= \frac{365}{365}\cdot\frac{364}{365}\cdot\frac{363}{365}\cdots
+\frac{365-n+1}{365}.
+\]
+
+\[
+\text{Same thing, just written with factorials:}\quad
+\Pr(\text{all different}) \;=\; \frac{365!}{(365-n)!\,365^n}.
+\]
+
+\[
+\boxed{\;\Pr(\ge 2 \text{ share}) \;=\; 1 - \dfrac{365!}{(365-n)!\,365^n}\;}
+\]
+
+\[
+\text{\small (Why the fraction? There are } 365^n \text{ total birthday patterns, and }
+365\cdot 364\cdots(365-n+1)=\frac{365!}{(365-n)!} \text{ of them have no repeats.)}
+\]
+
+
+
+
+
+## section 2: Taking this into R now
+
+We calculate $P(\ge 1\ \text{shared birthday})$ for a group of size $x$ with `birthday()`.
+
+### The R code in question:
+````{r}
+#' Title
+#'
+#' @param x an integer that is the size of the group to sample
+#'
+#' @returns a number which is the probability of at least one shared birthday
+#' @export
+#' @examples
+#' birthday(10)
+#' birthday(40)
+birthday <- function(x)
+{
+  # log P(all birthdays distinct) = log(365! / ((365-x)! * 365^x))
+  L <- lchoose(365, x) + lfactorial(x) - x * log(365)
+  1 - exp(L)  # complement => P(at least one shared birthday)
+}
+
+### Examples
+````{r}
+birthday(20:25)
+````
