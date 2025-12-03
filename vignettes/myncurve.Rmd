@@ -1,0 +1,17 @@
+---
+title: "Normal Curve Plotting"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Normal Curve Plotting}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup}
+library(MATH4753FALLKistler)
+```
+## Shading a normal curve
+```{r}
+myncurve(mu = 10, sigma = 5, a = 6)
+```
+

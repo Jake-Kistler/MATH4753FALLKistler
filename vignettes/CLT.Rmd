@@ -1,0 +1,27 @@
+---
+title: "Central Limit Theorem"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Central Limit Theorem}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup}
+library(MATH4753FALLKistler)
+```
+
+## CLT for Poisson
+The mycltp function simulates the Central Limit Theorem by taking random samples from a Poisson distribution and plotting the distribution of the sample means.The function takes the following arguments:
+
+n: The sample size per iteration.
+
+iter: The number of iterations(simulations).
+
+lambda: The Poisson rate parameter ($\lambda$).
+
+## Example
+```{r, fig.width=7, fig.height=7}
+# Run the simulation with n=10, 10000 iterations, and lambda=4
+mycltp(n = 10, iter = 10000, lambda = 4)
+```

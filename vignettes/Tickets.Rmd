@@ -1,0 +1,36 @@
+---
+title: "Ticket Sales Optimization"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Ticket Sales Optimization}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r}
+library(MATH4753FALLKistler)
+```
+
+## Optimizing Ticket Sales
+The ntickets function calculates the optimal number of tickets to sell for a flight to maximize revenue while keeping the risk of overbooking below a specified threshold (gamma).
+
+Example Usage
+In this example:
+
+N = 400: The plane has 400 seats.
+
+gamma = 0.02: We accept a 2% risk of overbooking.
+
+p = 0.95: There is a 95% probability a passenger shows up.
+
+## Code Example
+```{r}
+ntickets(N = 400, gamma = 0.02, p = 0.95)
+```
