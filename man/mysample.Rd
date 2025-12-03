@@ -15,7 +15,7 @@ mysample(n, iter = 10, time = 0.5)
 \item{time}{numeric. Seconds to pause between sample plots}
 }
 \value{
-'NULL' due to divsion error
+Returns NULL invisibly.
 }
 \description{
 mySample draws 'n' values with replacement from '1:10' and plots the relative frequency as a barplot.

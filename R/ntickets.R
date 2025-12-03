@@ -1,0 +1,97 @@
+#' ntickets - Calculates how many tickets to sell before overbooking risk is greater then gamma (or 'pain' tolance of the customers)
+#'
+#' @param N Number of seats on the plane
+#' @param gamma Probability of overbooking that is deemed OK
+#' @param p Probability that a passenger shows up the day of the flight
+#'
+#' @returns A list that has nd(discrete solution) and nc (normal approx), N, p, and gamma
+#' @export
+#'
+#' @examples
+#' ntickets(N=400, gamma=0.02, p=0.95)
+
+
+ntickets <- function(N, gamma, p)
+{
+  # Let's handle the discrete case of the binomial first
+  f_discrete <- function(n)
+  {
+    1-gamma-pbinom(N, size=n, prob=p)
+  }# END OF f_discrete
+
+  # Now to find the smallest n where the booking prob is <= gamma
+  # I guess let's try purrr since it was introduced
+  # I HAVE ADDED PURRR TO MY IMPORTS IN MY DISCRIPTION FILE
+
+  # The following line is sorta to the core of this entire project
+  # detect_index comes from purr -> Packages -> Purrr and from there detect_index and detect both caught my eye
+  # this could read as
+  # "loop over n from N to 2N and find the first value that makes f_discrete(n) <= 0
+  # and return that index of the element that did so"
+  # notably this returns the index and not the value and this is the difference in detect and detect_index
+
+  # This line effectively acts as a discrete root finder,
+  # identifying where the objective function 1 - gamma - P(overbook) crosses zero.
+
+  nd <- purrr::detect_index(N:(N*2), ~ f_discrete(.x) <= 0)
+
+  if(nd!=0)
+  {
+    nd <- N+nd-1 # This will adjust the index for the value of n
+  }
+  else
+  {
+    nd <- NA
+  }
+
+  # Now we need to approximate the normal
+  f_normal <- function(n)
+  {
+    mu <- n*p
+    sigma <- sqrt(n*p*(1-p))
+    1-gamma-pnorm((N+0.5-mu)/sigma) # this gets our bound right on this
+    # GOTTA LOOK AT THE NUMBER LINE, this was a big deal when we looked at this in class
+  } # END OF f_normal
+
+  nc <- NA
+
+  # Same idea that was used above for the discrete solution see that section for
+  # reasoning
+
+  index <- purrr::detect_index(N:(N*2), ~ f_normal(.x) <= 0)
+  nc <- if(index == 0) NA else N+index-1
+
+
+  # Cooking up the plots
+  # Create separate plots for discrete and normal cases
+
+  # Plot 1: Discrete (Binomial)
+  n_vals<-seq(N,N*1.5,by=1)
+  discrete_vals<-sapply(n_vals,f_discrete)
+
+  plot(n_vals,discrete_vals,type="l",col="blue",lwd=2,
+       ylim=c(0,1),xlim=c(N-10,N*1.1),
+       ylab="Objective (1 - gamma - P(overbook))",
+       xlab="Number of tickets sold",
+       main=paste("Objective vs n (Discrete)",
+                  "\n(",nd,") gamma=",gamma," N=",N))
+  abline(h=0,col="grey",lty=3)
+  abline(v=nd,col="red",lwd=2)
+  text(nd+2,0.1,paste0("nd = ",nd),col="red",pos=4)
+
+  # Plot 2: Normal Approximation
+  normal_vals<-sapply(n_vals,f_normal)
+
+  plot(n_vals,normal_vals,type="l",col="black",lwd=2,
+       ylim=c(0,1),xlim=c(N-10,N*1.1),
+       ylab="Objective (1 - gamma - P(overbook))",
+       xlab="Number of tickets sold",
+       main=paste("Objective vs n (Normal Approx)",
+                  "\n(",round(nc,3),") gamma=",gamma," N=",N))
+  abline(h=0,col="grey",lty=3)
+  abline(v=nc,col="blue",lwd=2)
+  text(nc+2,0.1,paste0("nc = ",round(nc,2)),col="blue",pos=4)
+
+
+
+} # END OF Ntickets

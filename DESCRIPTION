@@ -1,21 +1,27 @@
 Package: MATH4753FALLKistler
 Type: Package
-Title: What the Package Does (Title Case)
+Title: This is my Package for MATH4753
 Version: 0.1.0
 Authors@R: c(
     person(
-      "Jane", "Doe",
-      email = "jane@example.com",
+      "Jake", "Kistler",
+      email = "jake.a.kistler-1@ou.edu",
       role = c("aut", "cre")
     )
   )
-Description: More about what it does (maybe more than one line).
-    Continuation lines should be indented.
+Description: This package contains functions developed for the MATH 4753 course,
+  including bootstrap plotting and ticket sales analysis.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
+Imports: 
+    purrr
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Config/testthat/edition: 3
+Depends: 
+    R (>= 3.5)

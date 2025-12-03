@@ -5,7 +5,7 @@
 #' @param iter integer. Number of iterations (or the number of plots to produce)
 #' @param time numeric. Seconds to pause between sample plots
 #'
-#' @returns 'NULL' due to divsion error
+#' @return Returns NULL invisibly.
 #' @export
 #'
 #' @examples
