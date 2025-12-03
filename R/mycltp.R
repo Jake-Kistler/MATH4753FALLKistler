@@ -47,7 +47,7 @@ mycltp = function(n, iter, lambda = 10, ...)
   hist(w, freq = FALSE, ylim = c(0, ymax),
        col = "#56B4E9", border = "white",
        main = paste("Sampling Distribution of Sample Mean\nn=", n,
-                    ", iter=", iter, ", λ=", lambda, sep=""),
+                    ", iter=", iter, ", lamdba", lambda, sep=""),
        xlab = "Sample Mean", ...)
 
   ## Add theoretical normal curve (CLT approximation)
